@@ -262,8 +262,9 @@ class Checkpointable(abc.ABC):
                 # By providing the `state` arg, we make sure that the component does not
                 # have to call its own `get_state()` anymore, but uses what's provided
                 # here.
-                comp.save_to_path(comp_path, state=comp_state)
-
+                if hasattr(comp, "save_to_path"):
+                    comp.save_to_path(comp_path, state=comp_state)
+                
         # Write all the remaining state to disk.
         with open(path / self.STATE_FILE_NAME, "wb") as f:
             pickle.dump(state, f)

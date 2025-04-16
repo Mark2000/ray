@@ -18,9 +18,9 @@ from ray.rllib.algorithms.dreamerv3.dreamerv3 import DreamerV3Config
 from ray.rllib.utils.test_utils import add_rllib_example_script_args
 
 parser = add_rllib_example_script_args(
-    default_iters=1000000,
-    default_reward=20.0,
-    default_timesteps=100000,
+    default_iters=10000000,
+    default_reward=100000.0,
+    default_timesteps=10000000,
 )
 # Use `parser` to add your own custom command line options to this script
 # and (if needed) use their values toset up `config` below.
@@ -47,7 +47,7 @@ config = (
         },
     )
     .env_runners(
-        num_env_runners=(args.num_env_runners or 0),
+        num_env_runners=1,
         # If we use >1 GPU and increase the batch size accordingly, we should also
         # increase the number of envs per worker.
         num_envs_per_env_runner=(args.num_gpus or 1),
@@ -59,16 +59,17 @@ config = (
     )
     .reporting(
         metrics_num_episodes_for_smoothing=(args.num_gpus or 1),
-        report_images_and_videos=False,
-        report_dream_data=False,
+        report_images_and_videos=True,
+        report_dream_data=True,
         report_individual_batch_item_stats=False,
     )
     # See Appendix A.
     .training(
-        model_size="S",
-        training_ratio=1024,
+        model_size="mini",
+        training_ratio=32,
         batch_size_B=16 * (args.num_gpus or 1),
     )
+    .checkpointing(export_native_model_files=True)
 )
 
 

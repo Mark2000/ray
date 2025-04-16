@@ -272,6 +272,7 @@ class LearnerGroup(Checkpointable):
                 "under `self.metrics` within your custom Learner.",
                 error=True,
             )
+        print("Learner Group update_from_batch batch:", batch['default_policy']['obs'])
         return self._update(
             batch=batch,
             timesteps=timesteps,

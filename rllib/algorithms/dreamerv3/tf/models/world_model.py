@@ -264,6 +264,7 @@ class WorldModel(tf.keras.Model):
                 h-states and computed z-states to yield the next h-states.
             is_first: The batch (B, T) of `is_first` flags.
         """
+        print("Made it to Forward Train")
         if self.symlog_obs:
             observations = symlog(observations)
 
